@@ -4712,7 +4712,7 @@ static struct platform_device android_pmem_audio_device = {
        .dev = { .platform_data = &android_pmem_audio_pdata },
 };
 
-static struct resource kgsl_3d0_resources[] = {
+struct resource kgsl_3d0_resources[] = {
 	{
 		.name  = KGSL_3D0_REG_MEMORY,
 		.start = 0xA3500000, /* 3D GRP address */
@@ -4748,6 +4748,7 @@ static struct kgsl_device_platform_data kgsl_3d0_pdata = {
 		.set_grp_async = set_grp3d_async,
 		.idle_timeout = HZ/20,
 		.nap_allowed = true,
+                .idle_needed = true,
 	},
 	.clk = {
 		.name = {
@@ -4761,7 +4762,7 @@ static struct kgsl_device_platform_data kgsl_3d0_pdata = {
 	},
 };
 
-static struct platform_device msm_kgsl_3d0 = {
+struct platform_device msm_kgsl_3d0 = {
 	.name = "kgsl-3d0",
 	.id = 0,
 	.num_resources = ARRAY_SIZE(kgsl_3d0_resources),
@@ -4771,7 +4772,6 @@ static struct platform_device msm_kgsl_3d0 = {
 	},
 };
 
-#ifdef CONFIG_MSM_KGSL_2D
 static struct resource kgsl_2d0_resources[] = {
 	{
 		.name = KGSL_2D0_REG_MEMORY,
@@ -4810,7 +4810,7 @@ static struct kgsl_device_platform_data kgsl_2d0_pdata = {
 	},
 };
 
-static struct platform_device msm_kgsl_2d0 = {
+struct platform_device msm_kgsl_2d0 = {
 	.name = "kgsl-2d0",
 	.id = 0,
 	.num_resources = ARRAY_SIZE(kgsl_2d0_resources),
@@ -4819,7 +4819,7 @@ static struct platform_device msm_kgsl_2d0 = {
 		.platform_data = &kgsl_2d0_pdata,
 	},
 };
-#endif
+
 
 #if defined(CONFIG_CRYPTO_DEV_QCRYPTO) || \
 		defined(CONFIG_CRYPTO_DEV_QCRYPTO_MODULE) || \
@@ -6392,9 +6392,9 @@ static struct platform_device *devices[] __initdata = {
 	&msm_bt_power_device,
 #endif
 	&msm_kgsl_3d0,
-#ifdef CONFIG_MSM_KGSL_2D
+
 	&msm_kgsl_2d0,
-#endif
+
 #ifdef CONFIG_MT9T013
 	&msm_camera_sensor_mt9t013,
 #endif
